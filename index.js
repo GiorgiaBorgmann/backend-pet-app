@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 //import route
 const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts')
+const userinfoRoute = require('./routes/userInfo')
 dotenv.config();
 //connect to DB
 mongoose.connect(
@@ -22,6 +22,6 @@ app.use(cors())
 //route MiddleWar 
 
 app.use('/api/user', authRoute);
-app.use('/api/posts', postRoute)
+app.use('/api/userinfo', userinfoRoute)
 
 app.listen(4000, () => console.log('server up and running'));

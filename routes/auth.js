@@ -26,7 +26,11 @@ router.post('/register', async (req, res) => {
     })
     try {
         const savedUser = await user.save()
-        res.send({ user: user._id })
+        res.send({
+            user: user._id,
+            name: user.name,
+            lastName: user.lastName
+        })
     } catch (err) {
         res.status(400).send(err)
     }
