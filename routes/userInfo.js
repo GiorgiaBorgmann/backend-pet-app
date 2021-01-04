@@ -12,13 +12,12 @@ router.get('/username/:id', verify, async (req, res) => {
         if (err) {
             res.sendStatus(500)
         } else {
-            res.send({ name: foundObject.name, lastName: foundObject.lastName })
+            res.send({ name: foundObject.name, lastName: foundObject.lastName, role: foundObject.role })
         }
     })
 })
 
-
-router.put('/user/:id', verify, async (req, res) => {
+router.put('/user/:id', async (req, res) => {
     let id = req.params.id
     const salt = await bcrypt.genSalt(10)
     const hashPassword = await bcrypt.hash(req.body.password, salt)
@@ -33,9 +32,10 @@ router.put('/user/:id', verify, async (req, res) => {
         phone: req.body.phone,
         email: req.body.email,
         bio: req.body.bio,
-        password: hashPassword
+        password: hashPassword,
+        role: "basic"
     }
-    User.findOneAndUpdate({ _id: id }, update, (error, userObj) => {
+    User.findOneAndUpdate({ _id: id }, update, { upsert: true }, (error, userObj) => {
         if (error) {
             res.status(400).send(err)
         } else {

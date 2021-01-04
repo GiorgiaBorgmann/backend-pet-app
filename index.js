@@ -6,6 +6,7 @@ const cors = require('cors');
 //import route
 const authRoute = require('./routes/auth');
 const userinfoRoute = require('./routes/userInfo')
+const petRoute = require('./routes/pet')
 dotenv.config();
 //connect to DB
 mongoose.connect(
@@ -13,7 +14,6 @@ mongoose.connect(
     { useNewUrlParser: true },
     () => console.log('connected to db!')
 );
-
 
 //Middlewars 
 app.use(express.json())
@@ -23,5 +23,6 @@ app.use(cors())
 
 app.use('/api/user', authRoute);
 app.use('/api/userinfo', userinfoRoute)
+app.use('/api/pet', petRoute)
 
 app.listen(4000, () => console.log('server up and running'));
