@@ -14,13 +14,10 @@ mongoose.connect(
     { useNewUrlParser: true },
     () => console.log('connected to db!')
 );
-
 //Middlewars 
 app.use(express.json())
 app.use(cors())
-
 //route MiddleWar 
-
 app.use('/api/user', authRoute);
 app.use('/api/userinfo', userinfoRoute)
 app.use('/api/pet', petRoute)

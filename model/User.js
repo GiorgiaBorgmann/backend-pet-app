@@ -39,6 +39,14 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         default: "basic"
+    },
+    savePets: {
+        type: Array,
+        default: []
+    },
+    adoptedPets: {
+        type: Array,
+        default: []
     }
 
 

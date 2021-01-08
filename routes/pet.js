@@ -1,6 +1,6 @@
 
 const router = require('express').Router();
-const Pet = require('../model/Pet')
+const Pet = require('../model/Animal')
 router.post('/new-pet', async (req, res) => {
     //creat pet
     const pet = new Pet({
@@ -8,7 +8,7 @@ router.post('/new-pet', async (req, res) => {
         Name: req.body.Name,
         adoptionStatus: req.body.adoptionStatus,
         height: req.body.height,
-        weight: req.body.height,
+        weight: req.body.weight,
         color: req.body.color,
         bio: req.body.bio,
         hypoallergenic: req.body.hypoallergenic,
