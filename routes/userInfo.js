@@ -3,6 +3,7 @@ const verify = require(('./verifyToken'))
 const User = require('../model/User')
 const Pet = require('../model/Animal')
 const bcrypt = require('bcryptjs')
+const lodash = require('lodash')
 
 router.get('/', verify, (req, res) => {
     res.send(req.user)
@@ -13,7 +14,7 @@ router.get('/username/:id', verify, async (req, res) => {
         if (err) {
             res.sendStatus(500)
         } else {
-            res.send({ name: foundObject.name, lastName: foundObject.lastName, role: foundObject.role })
+            res.send(foundObject)
         }
     })
 })
@@ -26,23 +27,15 @@ router.put('/user/:id', async (req, res) => {
     if (emailExist) {
         return res.status(400).send('Email already exists')
     }
-    //creat user
-    const update = {
-        name: req.body.name,
-        lastName: req.body.lastName,
-        phone: req.body.phone,
-        email: req.body.email,
-        bio: req.body.bio,
+    let update = lodash.pick(req.body, ["name", "lastName", "phone", "email", "bio"]);
+    update = lodash.pickBy(update, lodash.identity);
+    update = lodash.merge(update, {
         password: hashPassword,
         role: "basic"
-
-    }
+    });
     User.findByIdAndUpdate(id, { $set: update }, { new: true }, (error, userObj) => {
-        if (error) {
-            res.status(400).send(err)
-        } else {
-            res.send('user updated')
-        }
+        if (error) res.status(400).send(err)
+        else res.send('user updated')
     })
 })
 
@@ -110,4 +103,22 @@ router.get('/list-saved-pets/:id', verify, (req, res) => {
         }
     })
 })
+router.get('/usersList', verify, function (req, res) {
+    User.find({}, function (err, users) {
+        let userMap = [];
+        users.forEach((user) => {
+            userMap.push(user)
+        });
+        res.send(userMap);
+    });
+});
+router.get('/petsList', verify, function (req, res) {
+    Pet.find({}, function (err, pets) {
+        let petMap = [];
+        pets.forEach((pet) => {
+            petMap.push(pet)
+        });
+        res.send(petMap);
+    });
+});
 module.exports = router

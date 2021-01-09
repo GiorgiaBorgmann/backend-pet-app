@@ -21,5 +21,4 @@ app.use(cors())
 app.use('/api/user', authRoute);
 app.use('/api/userinfo', userinfoRoute)
 app.use('/api/pet', petRoute)
-
 app.listen(4000, () => console.log('server up and running'));
